@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/route/route",
+    "pages/navigation/navigation",
     "pages/profile/profile"
   ],
   "window": {
@@ -11,6 +12,7 @@
     "backgroundColor": "#f4f3ee",
     "navigationStyle": "default"
   },
+  "lazyCodeLoading": "requiredComponents",
   "permission": {
     "scope.userLocation": {
       "desc": "用于从你当前的位置生成附近的散步路线"

@@ -6,20 +6,21 @@
   </view>
 
   <view class="map-wrap">
-    <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="15" show-location="true" markers="{{markers}}" polyline="{{polyline}}" />
-    <view class="demo-tag">示意轨迹 · 不是实际道路</view>
+    <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="15" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap="openFullscreen" />
+    <button class="fullscreen-button" disabled="{{!routeReady || routeLoading}}" bindtap="openFullscreen">⛶ 全屏查看</button>
+    <view class="demo-tag">{{routeLoading ? '正在规划步行路线…' : '高德步行路线'}}</view>
   </view>
 
   <view class="summary-card">
-    <view><view class="distance">{{distanceText}}</view><view class="summary-caption">演示路线预览</view></view>
+    <view><view class="distance">{{distanceText}}</view><view class="summary-caption">{{routeLoading ? '正在向高德请求路线' : '步行路线预览'}}</view></view>
     <view class="duration">{{durationText}}</view>
   </view>
 
-  <button class="reroll" bindtap="reroll">⟳　不喜欢？重新抽一条</button>
+  <button class="reroll" disabled="{{routeLoading}}" bindtap="reroll">⟳　{{routeLoading ? '正在重新规划…' : '不喜欢？重新抽一条'}}</button>
   <view class="actions">
-    <button class="favorite {{favorite ? 'saved' : ''}}" bindtap="toggleFavorite">{{favorite ? '♥ 已收藏' : '♡ 收藏'}}</button>
-    <button class="start" bindtap="startNavigation">开始导航　↗</button>
+    <button class="favorite {{favorite ? 'saved' : ''}}" disabled="{{!routeReady || routeLoading}}" bindtap="toggleFavorite">{{favorite ? '♥ 已收藏' : '♡ 收藏'}}</button>
+    <button class="start" disabled="{{!routeReady || routeLoading}}" bindtap="startNavigation">开始导航　↗</button>
   </view>
-  <button class="finish" bindtap="finishDemo">结束示例散步并查看记录</button>
-  <view class="notice">当前轨迹为随机示意，不可用于真实导航。接入高德后会显示真实步行路线。</view>
+  <button class="finish" disabled="{{!routeReady || routeLoading}}" bindtap="finishDemo">结束示例散步并查看记录</button>
+  <view class="notice">路线由高德步行规划生成；实时导航和途中进度还未接入。</view>
 </view>

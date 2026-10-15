@@ -5,4 +5,4 @@ page {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
-button { box-sizing: border-box; }
+button { box-sizing: border-box; min-height: 88rpx; line-height: 1.4; }

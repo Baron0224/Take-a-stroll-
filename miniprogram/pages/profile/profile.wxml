@@ -15,14 +15,35 @@
     <view class="stat"><view class="number">{{totalDuration}}</view><view class="label">累计时长 · 分钟</view></view>
   </view>
 
-  <view class="records-heading"><text>散步记录</text><text wx:if="{{records.length}}" class="clear" bindtap="clearRecords">清空</text></view>
-  <view wx:if="{{!records.length}}" class="empty">完成一段散步后，记录会出现在这里。</view>
-  <view wx:for="{{records}}" wx:key="index" class="record">
-    <view class="record-icon">🌿</view>
-    <view class="record-main">
-      <view class="record-title">{{item.title}}</view>
-      <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示例</text></view>
+  <view class="list-tabs">
+    <view class="list-tab {{activeTab === 'records' ? 'active' : ''}}" data-tab="records" bindtap="selectTab">散步记录</view>
+    <view class="list-tab {{activeTab === 'favorites' ? 'active' : ''}}" data-tab="favorites" bindtap="selectTab">我的收藏</view>
+  </view>
+
+  <view wx:if="{{activeTab === 'records'}}">
+    <view class="records-heading"><text>每一次出发</text><text wx:if="{{records.length}}" class="clear" bindtap="clearRecords">清空</text></view>
+    <view wx:if="{{!records.length}}" class="empty">完成一段散步后，记录会出现在这里。</view>
+    <view wx:for="{{records}}" wx:key="index" class="record">
+      <view class="record-icon">🌿</view>
+      <view class="record-main">
+        <view class="record-title">{{item.title}}</view>
+        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示例记录</text></view>
+      </view>
+      <view class="record-distance">{{item.distance}} km</view>
     </view>
-    <view class="record-distance">{{item.distance}} km</view>
+  </view>
+
+  <view wx:if="{{activeTab === 'favorites'}}">
+    <view class="records-heading"><text>喜欢的路线</text><text wx:if="{{favorites.length}}" class="clear" bindtap="clearFavorites">清空</text></view>
+    <view wx:if="{{!favorites.length}}" class="empty">喜欢的路线会收藏在这里。</view>
+    <view wx:for="{{favorites}}" wx:key="id" class="record">
+      <view class="record-icon">♡</view>
+      <view class="record-main">
+        <view class="record-title">{{item.title}}</view>
+        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示意路线</text></view>
+      </view>
+      <view class="record-distance">{{item.distance}} km</view>
+      <button class="remove-favorite" data-id="{{item.id}}" bindtap="removeFavorite">移除</button>
+    </view>
   </view>
 </view>

@@ -1,6 +1,9 @@
 # 本机微信开发者工具配置
 /miniprogram/project.private.config.json
 
+# 本机高德 Key；请从示例文件复制后仅在本地填写
+/miniprogram/utils/amap-config.js
+
 # 依赖和生成文件
 node_modules/
 dist/

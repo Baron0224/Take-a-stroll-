@@ -1,3 +1,5 @@
+const { planWalkingRoute } = require('../../utils/walking-route.js')
+
 Page({
   data: {
     title: '附近随机散步路线',
@@ -9,81 +11,117 @@ Page({
     markers: [],
     polyline: [],
     returnHome: true,
-    favorite: false
+    favorite: false,
+    routeLoading: false,
+    routeReady: false
   },
 
   onLoad() {
     this.makePreview()
   },
 
-  makePreview() {
+  async makePreview() {
     const route = getApp().globalData.currentRoute
     if (!route) {
       wx.showToast({ title: '请先设置散步路线', icon: 'none' })
       setTimeout(() => wx.navigateBack(), 500)
       return
     }
+    if (this.data.routeLoading) return
 
-    // 这是用于体验页面的示意轨迹。接入高德步行规划后会替换为真实道路折线。
-    const distance = route.mode === 'distance'
-      ? Math.max(0.8, route.requested + (Math.random() * 0.4 - 0.2))
-      : Math.max(0.8, route.requested / 60 * 4.5)
-    const duration = route.mode === 'time'
-      ? route.requested
-      : Math.max(1, Math.round(distance / 4.5 * 60))
-    const lat = route.latitude
-    const lon = route.longitude
-    const dx = 0.0014 + Math.random() * 0.001
-    const dy = 0.0014 + Math.random() * 0.001
-    const direction = Math.random() > 0.5 ? 1 : -1
-    let points
-    if (route.returnHome) {
-      points = [
-        { latitude: lat, longitude: lon },
-        { latitude: lat + dy * direction, longitude: lon + dx * 0.45 },
-        { latitude: lat + dy * 0.7 * direction, longitude: lon + dx * 1.15 },
-        { latitude: lat - dy * 0.15 * direction, longitude: lon + dx * 1.3 },
-        { latitude: lat - dy * 0.45 * direction, longitude: lon + dx * 0.55 },
-        { latitude: lat, longitude: lon }
-      ]
-    } else {
-      points = [
-        { latitude: lat, longitude: lon },
-        { latitude: lat + dy * direction, longitude: lon + dx * 0.45 },
-        { latitude: lat + dy * 0.7 * direction, longitude: lon + dx * 1.15 },
-        { latitude: lat - dy * 0.15 * direction, longitude: lon + dx * 1.3 }
-      ]
-    }
-    const last = points[points.length - 1]
-    this.setData({
-      subtitle: route.returnHome ? '从当前位置出发 · 回到出发点' : '从当前位置出发 · 随机选择终点',
-      distanceText: distance.toFixed(1) + ' 公里',
-      durationText: '约 ' + duration + ' 分钟',
-      latitude: lat,
-      longitude: lon,
-      returnHome: route.returnHome,
-      markers: [
-        { id: 1, latitude: lat, longitude: lon, title: '出发点', width: 28, height: 34 },
+    route.routeId = Date.now().toString() + Math.random().toString(36).slice(2, 7)
+    this.setData({ routeLoading: true, routeReady: false })
+    try {
+      const planned = await planWalkingRoute({
+        latitude: route.latitude,
+        longitude: route.longitude,
+        mode: route.mode,
+        requested: route.requested,
+        returnHome: route.returnHome
+      })
+      const points = planned.points
+      const distance = planned.distance / 1000
+      const duration = Math.max(1, Math.round(planned.duration / 60))
+      const last = points[points.length - 1]
+      const markers = [
+        { id: 1, latitude: route.latitude, longitude: route.longitude, title: '出发点', width: 28, height: 34 },
         { id: 2, latitude: last.latitude, longitude: last.longitude, title: route.returnHome ? '回到出发点' : '随机终点', width: 28, height: 34 }
-      ],
-      polyline: [{ points, color: '#426d54', width: 6, arrowLine: true, dottedLine: true }]
-    })
+      ]
+      const savedFavorites = wx.getStorageSync('walkFavorites') || []
+      const isFavorite = savedFavorites.some(item => item.id === route.routeId)
+      route.plannedDistance = distance
+      route.plannedDuration = duration
+      route.previewPoints = points
+      route.previewMarkers = markers
+      route.title = route.returnHome ? '随机环形散步路线' : '附近随机散步路线'
+      this.setData({
+        title: route.title,
+        subtitle: route.returnHome ? '从当前位置出发 · 回到出发点' : '从当前位置出发 · 随机选择终点',
+        distanceText: distance.toFixed(1) + ' 公里',
+        durationText: '约 ' + duration + ' 分钟',
+        favorite: isFavorite,
+        latitude: route.latitude,
+        longitude: route.longitude,
+        returnHome: route.returnHome,
+        markers,
+        polyline: [{ points, color: '#426d54', width: 7, arrowLine: true }],
+        routeReady: true
+      })
+    } catch (error) {
+      wx.showModal({
+        title: '路线规划失败',
+        content: error.message || '暂时没有找到步行路线，请稍后重试。',
+        confirmText: '知道了',
+        showCancel: false
+      })
+    } finally {
+      this.setData({ routeLoading: false })
+    }
   },
 
   reroll() {
     this.makePreview()
   },
 
+  openFullscreen() {
+    if (!this.data.routeReady) {
+      wx.showToast({ title: '请先等待路线规划完成', icon: 'none' })
+      return
+    }
+    wx.navigateTo({ url: '/pages/navigation/navigation' })
+  },
+
   toggleFavorite() {
-    const next = !this.data.favorite
-    this.setData({ favorite: next })
-    wx.showToast({ title: next ? '已收藏示意路线' : '已取消收藏', icon: 'none' })
+    if (!this.data.routeReady) return
+    const route = getApp().globalData.currentRoute
+    const favorites = wx.getStorageSync('walkFavorites') || []
+    const existingIndex = favorites.findIndex(item => item.id === route.routeId)
+    if (existingIndex >= 0) {
+      favorites.splice(existingIndex, 1)
+      this.setData({ favorite: false })
+      wx.showToast({ title: '已取消收藏', icon: 'none' })
+    } else {
+      const distance = Number.parseFloat(this.data.distanceText)
+      const duration = Number.parseInt(this.data.durationText.replace(/\D/g, ''), 10)
+      favorites.unshift({
+        id: route.routeId,
+        title: this.data.title,
+        distance,
+        duration,
+        date: new Date().toLocaleDateString('zh-CN'),
+        demo: false,
+        returnHome: route.returnHome
+      })
+      this.setData({ favorite: true })
+      wx.showToast({ title: '已加入我的收藏', icon: 'none' })
+    }
+    wx.setStorageSync('walkFavorites', favorites)
   },
 
   startNavigation() {
     wx.showModal({
-      title: '导航还没接入',
-      content: '当前路线是页面演示用的示意轨迹，不是实际道路路线。接入高德后才能开始真实步行导航。',
+      title: '实时导航还没接入',
+      content: '路线已经由高德步行规划生成，但小程序内的实时定位跟随、语音提示和偏航重规划还没有完成。你可以先点地图全屏查看路线。',
       confirmText: '知道了',
       showCancel: false
     })

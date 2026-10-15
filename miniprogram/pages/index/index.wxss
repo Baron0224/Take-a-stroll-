@@ -69,3 +69,70 @@ page { background: #f7f6f2; color: #292b25; }
 .primary-button { margin: 30rpx 36rpx 0; padding: 22rpx 16rpx; border-radius: 9rpx; background: #35392f; color: #f9f8f3; font-size: 25rpx; font-weight: 550; letter-spacing: 1rpx; box-shadow: none; }
 .fineprint { padding-top: 17rpx; color: #999990; font-size: 18rpx; letter-spacing: .5rpx; }
 
+/* Second simplification pass */
+.topbar { padding: 24rpx 42rpx 0; }
+.brand { font-size: 31rpx; letter-spacing: 0; }
+.avatar { width: 58rpx; height: 58rpx; line-height: 56rpx; border-color: transparent; font-size: 20rpx; }
+.intro { padding: 44rpx 42rpx 22rpx; }
+.title { margin-top: 0; font-size: 49rpx; line-height: 1.38; font-weight: 550; }
+.subtitle { margin-top: 8rpx; font-size: 22rpx; }
+.map-card { margin: 10rpx 30rpx 0; height: 360rpx; border-radius: 6rpx; }
+.map-placeholder { background: #efeee9; }
+.map-placeholder-title { font-size: 25rpx; letter-spacing: 1rpx; }
+.map-placeholder-sub { margin-top: 8rpx; font-size: 18rpx; }
+.map-label { top: 14rpx; left: 14rpx; padding: 7rpx 10rpx; border: 0; border-radius: 2rpx; background: rgba(250,249,245,.8); font-size: 17rpx; }
+.map-caption { display: none; }
+.settings-card { margin: 32rpx 34rpx 0; padding-top: 20rpx; }
+.card-heading { font-size: 23rpx; }
+.heading-note { font-size: 18rpx; }
+.segmented { gap: 22rpx; margin-top: 18rpx; }
+.segment { min-width: 120rpx; padding: 12rpx 4rpx 15rpx; font-size: 20rpx; }
+.range-row { margin-top: 22rpx; }
+.range-value { font-size: 24rpx; }
+.range-ends { font-size: 17rpx; }
+.return-row { margin-top: 18rpx; padding-top: 17rpx; }
+.return-title { font-size: 21rpx; }
+.return-subtitle { margin-top: 4rpx; font-size: 18rpx; }
+.primary-button { margin: 22rpx 30rpx 0; padding: 20rpx 14rpx; border-radius: 5rpx; font-size: 23rpx; letter-spacing: 0; }
+.fineprint { padding-top: 12rpx; font-size: 16rpx; }
+
+/* Refined lifestyle finish: warm layers, quiet color, confident controls. */
+page { background: #f4f2ec; color: #292d27; }
+.page-wrap { padding-bottom: 76rpx; }
+.topbar { display: flex; width: 100%; box-sizing: border-box; align-items: center; justify-content: space-between; padding: 30rpx 24rpx 4rpx 42rpx; }
+.brand { font-size: 35rpx; font-weight: 700; letter-spacing: -1rpx; }
+.brand text { color: #78836b; font-weight: 500; }
+button.avatar { display: flex; flex: 0 0 92rpx; align-items: center; justify-content: center; width: 92rpx; min-width: 92rpx; max-width: 92rpx; height: 92rpx; min-height: 92rpx; margin: 0; padding: 0; line-height: 1; border: 1rpx solid #e4e0d5; border-radius: 50%; background: #ebe9df; color: #59624f; font-size: 30rpx; }
+.intro { padding: 58rpx 46rpx 24rpx; }
+.eyebrow { color: #858675; font-size: 17rpx; letter-spacing: 3rpx; }
+.title { margin-top: 22rpx; font-size: 56rpx; line-height: 1.27; font-weight: 650; letter-spacing: -1rpx; }
+.subtitle { margin-top: 12rpx; color: #777b70; font-size: 24rpx; line-height: 1.75; }
+.map-card { margin: 18rpx 30rpx 0; height: 410rpx; border: 1rpx solid #d9dfd1; border-radius: 28rpx; background: #e7ebdf; box-shadow: 0 16rpx 38rpx rgba(47,57,43,.08); }
+.map-placeholder { background: linear-gradient(145deg,#e9ede3 0%,#dfe7d9 100%); }
+.map-orbit { display: block; border-color: rgba(150,166,137,.26); }
+.orbit-one { width: 290rpx; height: 290rpx; }
+.orbit-two { width: 440rpx; height: 440rpx; }
+.map-emoji { margin-bottom: 16rpx; font-size: 54rpx; opacity: .86; }
+.map-placeholder-title { color: #454c40; font-size: 27rpx; font-weight: 650; letter-spacing: 1rpx; }
+.map-placeholder-sub { color: #7c8276; font-size: 19rpx; }
+.map-label { top: 20rpx; left: 20rpx; padding: 12rpx 17rpx; border: 1rpx solid rgba(255,255,255,.72); border-radius: 30rpx; background: rgba(250,249,244,.88); color: #535b4d; font-size: 19rpx; font-weight: 600; box-shadow: 0 5rpx 18rpx rgba(44,54,40,.06); }
+.map-caption { display: block; left: 20rpx; bottom: 18rpx; padding: 9rpx 13rpx; border: 1rpx solid rgba(255,255,255,.58); border-radius: 9rpx; background: rgba(250,249,244,.78); color: #71776b; font-size: 16rpx; }
+.settings-card { margin: 30rpx 30rpx 0; padding: 28rpx 26rpx 23rpx; border: 1rpx solid #e7e4da; border-radius: 25rpx; background: #fbfaf6; box-shadow: 0 12rpx 30rpx rgba(47,51,42,.045); }
+.card-heading { color: #353a32; font-size: 25rpx; font-weight: 700; }
+.heading-note { color: #929287; font-size: 18rpx; }
+.segmented { gap: 10rpx; margin-top: 21rpx; padding: 6rpx; border-radius: 16rpx; background: #f0efe8; }
+.segment { flex: 1; min-width: 0; padding: 15rpx 8rpx; border: 1rpx solid transparent; border-radius: 12rpx; background: transparent; color: #777b70; font-size: 20rpx; }
+.segment.selected { border-color: #e5e4da; background: #fffefa; color: #455642; font-weight: 700; box-shadow: 0 3rpx 10rpx rgba(45,54,43,.06); }
+.range-row { margin-top: 23rpx; }
+.range-value { color: #3b4538; font-size: 26rpx; font-weight: 700; }
+.range-ends { color: #9b9c91; font-size: 17rpx; }
+.return-row { margin-top: 22rpx; padding-top: 20rpx; border-color: #eceae2; }
+.return-title { font-size: 23rpx; font-weight: 650; }
+.return-subtitle { color: #85877d; font-size: 19rpx; }
+.primary-button { margin: 24rpx 30rpx 0; padding: 23rpx 16rpx; border-radius: 16rpx; background: #3c5142; color: #fbfaf6; font-size: 25rpx; font-weight: 650; letter-spacing: 1rpx; box-shadow: 0 10rpx 24rpx rgba(50,72,54,.16); }
+.fineprint { padding-top: 14rpx; color: #99998f; font-size: 17rpx; }
+.segment { min-height: 86rpx; padding: 20rpx 10rpx; font-size: 22rpx; }
+.primary-button { min-height: 100rpx; padding: 27rpx 18rpx; font-size: 27rpx; }
+.range-row slider { height: 78rpx; }
+.return-row switch { transform: scale(1.12); transform-origin: right center; margin-left: 14rpx; }
+
