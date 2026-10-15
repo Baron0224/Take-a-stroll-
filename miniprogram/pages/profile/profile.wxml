@@ -1,0 +1,28 @@
+<view class="page-wrap">
+  <view class="heading">
+    <button class="back" bindtap="backHome">← 返回散步</button>
+    <view class="title">我的散步</view>
+    <view class="subtitle">每一段路，都是留给自己的时间。</view>
+  </view>
+
+  <view class="profile-card">
+    <view class="avatar">🌱</view>
+    <view><view class="nickname">散步的人</view><view class="motto">慢慢走，也算到达。</view></view>
+  </view>
+
+  <view class="stats">
+    <view class="stat"><view class="number">{{totalDistance}}</view><view class="label">累计距离 · 公里</view></view>
+    <view class="stat"><view class="number">{{totalDuration}}</view><view class="label">累计时长 · 分钟</view></view>
+  </view>
+
+  <view class="records-heading"><text>散步记录</text><text wx:if="{{records.length}}" class="clear" bindtap="clearRecords">清空</text></view>
+  <view wx:if="{{!records.length}}" class="empty">完成一段散步后，记录会出现在这里。</view>
+  <view wx:for="{{records}}" wx:key="index" class="record">
+    <view class="record-icon">🌿</view>
+    <view class="record-main">
+      <view class="record-title">{{item.title}}</view>
+      <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示例</text></view>
+    </view>
+    <view class="record-distance">{{item.distance}} km</view>
+  </view>
+</view>

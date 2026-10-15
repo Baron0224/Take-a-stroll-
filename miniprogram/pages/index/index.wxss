@@ -1,0 +1,71 @@
+.page-wrap { padding: 4rpx 0 54rpx; }
+.topbar { padding: 18rpx 38rpx 4rpx; display: flex; align-items: center; justify-content: space-between; }
+.brand { font-size: 38rpx; font-weight: 800; letter-spacing: -2rpx; }
+.brand text { color: #8aa36b; }
+.avatar { margin: 0; padding: 0; width: 82rpx; height: 82rpx; line-height: 82rpx; border: 0; border-radius: 50%; background: #e8eadc; font-size: 38rpx; }
+.avatar::after, .segment::after, .primary-button::after { border: 0; }
+.intro { padding: 36rpx 44rpx 14rpx; }
+.eyebrow { color: #839078; font-size: 19rpx; font-weight: 800; letter-spacing: 2rpx; }
+.title { margin-top: 22rpx; font-size: 60rpx; line-height: 1.18; font-weight: 800; letter-spacing: -3rpx; }
+.subtitle { margin-top: 12rpx; color: #7c8980; font-size: 26rpx; line-height: 1.65; }
+.map-card { position: relative; margin: 18rpx 28rpx 0; height: 440rpx; overflow: hidden; border: 1rpx solid #d4dfca; border-radius: 32rpx; background: #dfe9d5; }
+.map { width: 100%; height: 100%; }
+.map-placeholder { width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(145deg,#e8efdf,#dce8d7); overflow: hidden; }
+.map-orbit { position: absolute; border: 2rpx solid #c8d8c2; border-radius: 50%; }
+.orbit-one { width: 300rpx; height: 300rpx; }
+.orbit-two { width: 460rpx; height: 460rpx; }
+.map-emoji { position: relative; font-size: 62rpx; margin-bottom: 18rpx; }
+.map-placeholder-title { position: relative; font-size: 29rpx; font-weight: 750; }
+.map-placeholder-sub { position: relative; margin-top: 10rpx; color: #7c8980; font-size: 21rpx; }
+.map-label { position: absolute; top: 20rpx; left: 20rpx; padding: 12rpx 18rpx; border-radius: 50rpx; background: #fffdf4; font-size: 21rpx; font-weight: 700; }
+.map-caption { position: absolute; left: 20rpx; bottom: 18rpx; padding: 10rpx 14rpx; border-radius: 12rpx; background: rgba(255,253,244,.86); color: #72816e; font-size: 18rpx; }
+.settings-card { margin: 26rpx 28rpx 0; padding: 30rpx 28rpx 24rpx; border: 1rpx solid #e5e6dc; border-radius: 30rpx; background: #fffefa; box-shadow: 0 12rpx 34rpx rgba(41,55,41,.03); }
+.card-heading { display: flex; justify-content: space-between; align-items: center; font-size: 27rpx; font-weight: 800; }
+.heading-note { color: #7c8980; font-size: 21rpx; font-weight: 500; }
+.segmented { display: flex; gap: 14rpx; margin-top: 24rpx; }
+.segment { flex: 1; padding: 18rpx 8rpx; border: 1rpx solid #e5e6dc; border-radius: 18rpx; background: #fff; color: #69766d; font-size: 22rpx; line-height: 1.3; }
+.segment.selected { border-color: #547a5e; background: #f0f4e8; color: #345f4d; font-weight: 800; }
+.range-row { display: flex; align-items: center; margin-top: 25rpx; }
+.range-row slider { flex: 1; margin: 0 14rpx 0 0; }
+.range-value { width: 120rpx; flex-shrink: 0; text-align: right; font-size: 28rpx; font-weight: 800; }
+.range-value text { font-size: 20rpx; }
+.range-ends { display: flex; justify-content: space-between; padding: 0 126rpx 0 0; color: #9aa39c; font-size: 19rpx; }
+.return-row { display: flex; justify-content: space-between; align-items: center; margin-top: 26rpx; padding-top: 24rpx; border-top: 1rpx solid #eff0e9; }
+.return-title { font-size: 25rpx; font-weight: 750; }
+.return-subtitle { margin-top: 7rpx; color: #7c8980; font-size: 21rpx; }
+.primary-button { margin: 24rpx 28rpx 0; padding: 24rpx 16rpx; border: 0; border-radius: 22rpx; background: #345f4d; color: #fff; font-size: 28rpx; font-weight: 800; line-height: 1.4; box-shadow: 0 10rpx 22rpx rgba(52,95,77,.16); }
+.fineprint { padding: 14rpx 30rpx 4rpx; text-align: center; color: #9ba39c; font-size: 19rpx; }
+
+/* Quiet, editorial style: fewer panels, softer contrast, more breathing room. */
+page { background: #f7f6f2; color: #292b25; }
+.page-wrap { padding-bottom: 70rpx; }
+.topbar { padding: 28rpx 44rpx 6rpx; }
+.brand { font-size: 34rpx; font-weight: 650; letter-spacing: 1rpx; }
+.brand text { margin-left: 5rpx; color: #7c846b; font-weight: 450; }
+.avatar { width: 68rpx; height: 68rpx; line-height: 66rpx; border: 1rpx solid #deddd4; background: transparent; color: #5d6257; font-size: 22rpx; }
+.intro { padding: 62rpx 48rpx 28rpx; }
+.eyebrow { color: #858777; font-family: Georgia, serif; font-size: 18rpx; font-weight: 500; letter-spacing: 3rpx; }
+.title { margin-top: 28rpx; font-size: 54rpx; line-height: 1.35; font-weight: 600; letter-spacing: 0; }
+.subtitle { margin-top: 13rpx; color: #85867d; font-size: 24rpx; line-height: 1.8; }
+.map-card { margin: 16rpx 36rpx 0; height: 400rpx; border: 0; border-radius: 10rpx; background: #eeede6; }
+.map-placeholder { background: #eeede6; }
+.map-orbit { display: none; }
+.map-placeholder-title { color: #55584f; font-size: 27rpx; font-weight: 500; letter-spacing: 2rpx; }
+.map-placeholder-sub { color: #8c8d83; font-size: 20rpx; }
+.map-label { top: 18rpx; left: 18rpx; padding: 10rpx 14rpx; border: 1rpx solid rgba(255,255,255,.65); border-radius: 5rpx; background: rgba(250,249,245,.88); color: #5d6257; font-size: 19rpx; font-weight: 500; }
+.map-caption { left: 18rpx; bottom: 18rpx; padding: 0; background: transparent; color: #76786f; font-size: 17rpx; }
+.settings-card { margin: 40rpx 36rpx 0; padding: 22rpx 0 18rpx; border: 0; border-top: 1rpx solid #deddd5; border-radius: 0; background: transparent; box-shadow: none; }
+.card-heading { font-size: 25rpx; font-weight: 600; }
+.heading-note { color: #96968c; font-size: 19rpx; }
+.segmented { gap: 28rpx; margin-top: 27rpx; border-bottom: 1rpx solid #e1e0d8; }
+.segment { flex: 0 0 auto; min-width: 140rpx; padding: 15rpx 4rpx 18rpx; border: 0; border-bottom: 3rpx solid transparent; border-radius: 0; background: transparent; color: #8a8b82; font-size: 22rpx; }
+.segment.selected { border-color: #747b61; background: transparent; color: #33362f; font-weight: 650; }
+.range-row { margin-top: 30rpx; }
+.range-value { color: #393c34; font-size: 26rpx; font-weight: 600; }
+.range-ends { color: #9a9a91; font-size: 18rpx; }
+.return-row { margin-top: 26rpx; padding-top: 23rpx; border-color: #e1e0d8; }
+.return-title { font-size: 23rpx; font-weight: 600; }
+.return-subtitle { color: #8b8c82; font-size: 20rpx; }
+.primary-button { margin: 30rpx 36rpx 0; padding: 22rpx 16rpx; border-radius: 9rpx; background: #35392f; color: #f9f8f3; font-size: 25rpx; font-weight: 550; letter-spacing: 1rpx; box-shadow: none; }
+.fineprint { padding-top: 17rpx; color: #999990; font-size: 18rpx; letter-spacing: .5rpx; }
+

@@ -1,0 +1,44 @@
+.page-wrap { padding-bottom: 50rpx; }
+.route-heading { padding: 8rpx 38rpx 24rpx; }
+.back { margin: 0; padding: 10rpx 0; border: 0; background: transparent; color: #7c8980; font-size: 24rpx; text-align: left; }
+.back::after { border: 0; }
+.route-title { margin-top: 18rpx; font-size: 42rpx; line-height: 1.2; font-weight: 800; }
+.route-subtitle { margin-top: 10rpx; color: #7c8980; font-size: 24rpx; }
+.map-wrap { position: relative; margin: 0 26rpx; height: 680rpx; overflow: hidden; border-radius: 30rpx; background: #dfe9d5; }
+.map { width: 100%; height: 100%; }
+.demo-tag { position: absolute; top: 18rpx; left: 18rpx; padding: 12rpx 18rpx; border-radius: 30rpx; background: #fffefa; color: #8a694e; font-size: 20rpx; font-weight: 700; }
+.summary-card { position: relative; display: flex; align-items: center; justify-content: space-between; margin: -32rpx 48rpx 0; padding: 24rpx 28rpx; border: 1rpx solid #e5e6dc; border-radius: 22rpx; background: #fffefa; box-shadow: 0 12rpx 30rpx rgba(34,53,34,.07); }
+.distance { font-size: 36rpx; font-weight: 800; letter-spacing: -1rpx; }
+.summary-caption { margin-top: 6rpx; color: #7c8980; font-size: 20rpx; }
+.duration { font-size: 25rpx; font-weight: 700; }
+.reroll { display: block; margin: 14rpx auto 12rpx; padding: 14rpx 22rpx; border: 0; background: transparent; color: #345f4d; font-size: 23rpx; font-weight: 750; }
+.reroll::after { border: 0; }
+.actions { display: flex; gap: 16rpx; margin: 0 28rpx; }
+.favorite, .start { margin: 0; padding: 22rpx 14rpx; border-radius: 19rpx; font-size: 25rpx; font-weight: 800; }
+.favorite { width: 220rpx; border: 1rpx solid #e5e6dc; background: #fffefa; }
+.favorite.saved { color: #a34d4d; }
+.start { flex: 1; border: 0; background: #345f4d; color: #fff; }
+.favorite::after, .start::after, .finish::after { border: 0; }
+.finish { margin: 18rpx 28rpx 0; padding: 18rpx; border: 1rpx solid #dce4d7; border-radius: 18rpx; background: #eef3e8; color: #345f4d; font-size: 23rpx; font-weight: 750; }
+.notice { padding: 18rpx 38rpx 0; color: #8d978f; text-align: center; font-size: 19rpx; line-height: 1.6; }
+
+page { background: #f7f6f2; color: #292b25; }
+.route-heading { padding: 18rpx 42rpx 28rpx; }
+.back { color: #85867d; font-size: 22rpx; }
+.route-title { margin-top: 26rpx; font-size: 38rpx; font-weight: 600; letter-spacing: 0; }
+.route-subtitle { color: #85867d; font-size: 22rpx; }
+.map-wrap { margin: 0 30rpx; height: 640rpx; border-radius: 10rpx; background: #eeede6; }
+.demo-tag { top: 16rpx; left: 16rpx; border: 1rpx solid rgba(255,255,255,.65); border-radius: 5rpx; background: rgba(250,249,245,.9); color: #76766c; font-size: 18rpx; font-weight: 500; }
+.summary-card { margin: 26rpx 42rpx 0; padding: 22rpx 0; border: 0; border-bottom: 1rpx solid #deddd5; border-radius: 0; background: transparent; box-shadow: none; }
+.distance { font-size: 33rpx; font-weight: 600; }
+.summary-caption { color: #8b8c82; font-size: 19rpx; }
+.duration { color: #55584f; font-size: 22rpx; font-weight: 500; }
+.reroll { color: #5f6752; font-size: 21rpx; font-weight: 600; }
+.actions { margin: 0 36rpx; }
+.favorite, .start { padding: 21rpx 12rpx; border-radius: 8rpx; font-size: 22rpx; font-weight: 550; }
+.favorite { width: 190rpx; border-color: #deddd5; background: transparent; color: #55584f; }
+.favorite.saved { color: #8b5c54; }
+.start { background: #35392f; }
+.finish { margin: 18rpx 36rpx 0; border-color: #deddd5; border-radius: 8rpx; background: transparent; color: #5f6752; font-size: 21rpx; font-weight: 550; }
+.notice { color: #929289; font-size: 18rpx; }
+

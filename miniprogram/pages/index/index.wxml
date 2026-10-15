@@ -1,0 +1,50 @@
+<view class="page-wrap">
+  <view class="topbar">
+    <view class="brand">散步<text>一下</text></view>
+    <button class="avatar" bindtap="openProfile" aria-label="我的散步">我</button>
+  </view>
+
+  <view class="intro">
+    <view class="eyebrow">WALK, AT YOUR OWN PACE</view>
+    <view class="title">把今天，走慢一点。</view>
+    <view class="subtitle">从此刻出发，随机遇见一条散步路线。</view>
+  </view>
+
+  <view class="map-card">
+    <map wx:if="{{hasLocation}}" class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="15" show-location="true" />
+    <view wx:else class="map-placeholder">
+      <view class="map-orbit orbit-one"></view>
+      <view class="map-orbit orbit-two"></view>
+      <view class="map-placeholder-title">从附近开始</view>
+      <view class="map-placeholder-sub">点击下方按钮后，会请求你的位置权限</view>
+    </view>
+    <view class="map-label">📍 {{hasLocation ? '当前位置已就绪' : '等待定位'}}</view>
+    <view class="map-caption">地图路线接入后显示真实路线</view>
+  </view>
+
+  <view class="settings-card">
+    <view class="card-heading">
+      <text>想走多久 / 多远</text>
+      <text class="heading-note">二选一</text>
+    </view>
+    <view class="segmented">
+      <button class="segment {{mode === 'distance' ? 'selected' : ''}}" data-mode="distance" bindtap="chooseMode">按距离</button>
+      <button class="segment {{mode === 'time' ? 'selected' : ''}}" data-mode="time" bindtap="chooseMode">按时长</button>
+    </view>
+    <view class="range-row">
+      <slider min="{{min}}" max="{{max}}" step="{{step}}" value="{{range}}" activeColor="#345f4d" backgroundColor="#e5e9df" block-color="#345f4d" block-size="22" bindchanging="onRangeChange" bindchange="onRangeChange" />
+      <view class="range-value">{{range}} <text>{{modeLabel}}</text></view>
+    </view>
+    <view class="range-ends"><text>{{min}} {{modeLabel}}</text><text>{{max}} {{modeLabel}}</text></view>
+    <view class="return-row">
+      <view>
+        <view class="return-title">回到出发点</view>
+        <view class="return-subtitle">{{returnHome ? '走一圈回到当前位置' : '随机选一个合适的终点'}}</view>
+      </view>
+      <switch checked="{{returnHome}}" color="#345f4d" bindchange="onReturnChange" />
+    </view>
+  </view>
+
+  <button class="primary-button" loading="{{locating}}" bindtap="makeRoute">{{locating ? '正在定位…' : '开始随机散步　↗'}}</button>
+  <view class="fineprint">选择步行偏好 · 预览路线 · 随时重新抽取</view>
+</view>
