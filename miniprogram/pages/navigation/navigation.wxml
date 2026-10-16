@@ -1,5 +1,5 @@
 <view class="navigation-screen">
-  <map class="full-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="16" show-location="true" markers="{{markers}}" polyline="{{polyline}}" />
+  <map class="full-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="17" show-location="true" markers="{{markers}}" polyline="{{polyline}}" />
 
   <view class="top-overlay" style="padding-top: {{safeTop}}px;">
     <button class="back-button" bindtap="backToRoute" aria-label="返回路线预览">‹</button>
@@ -15,9 +15,9 @@
           <text class="metric-value">{{remainingDuration}}</text>
         </view>
       </view>
-      <view class="clock-line"><text class="clock-label">当前时间</text><text class="clock-value">{{clockTime}}</text></view>
+      <view class="clock-line"><text>已走 {{walkedDistance}}</text><text>已用时 {{elapsedTime}}</text><text class="clock-value">{{clockTime}}</text></view>
     </view>
   </view>
 
-  <view class="demo-notice">高德步行路线预览 · 实时导航和动态剩余路程尚未接入</view>
+  <view class="demo-notice">{{trackingStatus}}</view>
 </view>

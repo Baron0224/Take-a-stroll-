@@ -6,17 +6,17 @@
   </view>
 
   <view class="map-wrap">
-    <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="15" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap="openFullscreen" />
+    <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="15" show-location="true" markers="{{markers}}" polyline="{{polyline}}" include-points="{{includePoints}}" bindtap="openFullscreen" />
     <button class="fullscreen-button" disabled="{{!routeReady || routeLoading}}" bindtap="openFullscreen">⛶ 全屏查看</button>
     <view class="demo-tag">{{routeLoading ? '正在规划步行路线…' : '高德步行路线'}}</view>
   </view>
 
   <view class="summary-card">
-    <view><view class="distance">{{distanceText}}</view><view class="summary-caption">{{routeLoading ? '正在向高德请求路线' : '步行路线预览'}}</view></view>
+    <view><view class="distance">{{distanceText}}</view><view class="summary-caption">{{routeLoading ? '正在向高德请求路线' : targetText}}</view></view>
     <view class="duration">{{durationText}}</view>
   </view>
 
-  <button class="reroll" disabled="{{routeLoading}}" bindtap="reroll">⟳　{{routeLoading ? '正在重新规划…' : '不喜欢？重新抽一条'}}</button>
+  <button class="reroll" disabled="{{routeLoading}}" bindtap="reroll">⟳　{{routeLoading ? '正在重新规划…' : (returnHome ? '不喜欢？换一种路线' : '不喜欢？重新抽一条')}}</button>
   <view class="actions">
     <button class="favorite {{favorite ? 'saved' : ''}}" disabled="{{!routeReady || routeLoading}}" bindtap="toggleFavorite">{{favorite ? '♥ 已收藏' : '♡ 收藏'}}</button>
     <button class="start" disabled="{{!routeReady || routeLoading}}" bindtap="startNavigation">开始导航　↗</button>

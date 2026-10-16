@@ -15,10 +15,10 @@
   "lazyCodeLoading": "requiredComponents",
   "permission": {
     "scope.userLocation": {
-      "desc": "用于从你当前的位置生成附近的散步路线"
+      "desc": "用于生成附近散步路线、实时显示你的位置并记录散步进度"
     }
   },
-  "requiredPrivateInfos": ["getLocation"],
+  "requiredPrivateInfos": ["getLocation", "onLocationChange", "startLocationUpdate"],
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

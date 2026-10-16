@@ -1,8 +1,8 @@
 page { width: 100%; height: 100%; overflow: hidden; background: #e7ebdf; }
 .navigation-screen { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
 .full-map { position: absolute; inset: 0; width: 100%; height: 100%; }
-.top-overlay { position: absolute; top: 0; left: 0; right: 0; padding-left: 28rpx; padding-right: 28rpx; }
-.back-button { display: flex; width: 84rpx; min-width: 84rpx; height: 84rpx; min-height: 84rpx; margin: 8rpx 0 18rpx; padding: 0; align-items: center; justify-content: center; border: 1rpx solid rgba(255,255,255,.72); border-radius: 50%; background: rgba(251,250,246,.96); color: #3d493d; font-size: 68rpx; line-height: 1; box-shadow: 0 8rpx 24rpx rgba(31,44,32,.12); }
+.top-overlay { position: absolute; top: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: flex-start; padding-left: 20rpx; padding-right: 20rpx; }
+button.back-button { display: flex; flex: 0 0 100rpx; box-sizing: border-box; width: 100rpx; min-width: 100rpx; max-width: 100rpx; height: 100rpx; min-height: 100rpx; max-height: 100rpx; margin: 8rpx auto 18rpx 0; padding: 0; align-items: center; justify-content: center; border: 1rpx solid rgba(255,255,255,.72); border-radius: 50%; background: rgba(251,250,246,.96); color: #3d493d; font-size: 72rpx; line-height: 1; box-shadow: 0 8rpx 24rpx rgba(31,44,32,.12); }
 .back-button::after { border: 0; }
 .progress-card { padding: 24rpx 26rpx 18rpx; border: 1rpx solid rgba(255,255,255,.76); border-radius: 22rpx; background: rgba(251,250,246,.96); box-shadow: 0 12rpx 32rpx rgba(31,44,32,.13); }
 .metric-row { display: flex; align-items: center; }
@@ -10,6 +10,6 @@ page { width: 100%; height: 100%; overflow: hidden; background: #e7ebdf; }
 .metric-label { color: #85877d; font-size: 20rpx; }
 .metric-value { color: #303a31; font-size: 32rpx; font-weight: 700; }
 .metric-divider { width: 1rpx; height: 56rpx; margin: 0 20rpx; background: #e7e4da; }
-.clock-line { display: flex; align-items: center; gap: 12rpx; margin-top: 16rpx; padding-top: 14rpx; border-top: 1rpx solid #eceae2; color: #777b70; font-size: 19rpx; }
+.clock-line { display: flex; align-items: center; justify-content: space-between; gap: 8rpx; margin-top: 16rpx; padding-top: 14rpx; border-top: 1rpx solid #eceae2; color: #777b70; font-size: 19rpx; }
 .clock-value { color: #50574b; font-size: 20rpx; font-weight: 600; font-variant-numeric: tabular-nums; }
-.demo-notice { position: absolute; right: 24rpx; bottom: 42rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 18rpx; }
+.demo-notice { position: absolute; right: 24rpx; bottom: 42rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 22rpx; }

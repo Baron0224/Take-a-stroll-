@@ -6,11 +6,14 @@ Page({
     subtitle: '',
     distanceText: '—',
     durationText: '—',
+    targetText: '',
     latitude: 0,
     longitude: 0,
     markers: [],
     polyline: [],
+    includePoints: [],
     returnHome: true,
+    routeStyle: 'loop',
     favorite: false,
     routeLoading: false,
     routeReady: false
@@ -20,7 +23,7 @@ Page({
     this.makePreview()
   },
 
-  async makePreview() {
+  async makePreview(preferredStyle) {
     const route = getApp().globalData.currentRoute
     if (!route) {
       wx.showToast({ title: '请先设置散步路线', icon: 'none' })
@@ -29,6 +32,7 @@ Page({
     }
     if (this.data.routeLoading) return
 
+    const requestedStyle = preferredStyle || 'loop'
     route.routeId = Date.now().toString() + Math.random().toString(36).slice(2, 7)
     this.setData({ routeLoading: true, routeReady: false })
     try {
@@ -37,34 +41,64 @@ Page({
         longitude: route.longitude,
         mode: route.mode,
         requested: route.requested,
-        returnHome: route.returnHome
+        returnHome: route.returnHome,
+        preferredStyle: requestedStyle
       })
       const points = planned.points
-      const distance = planned.distance / 1000
-      const duration = Math.max(1, Math.round(planned.duration / 60))
+      // Round down so a valid value near the exclusive upper boundary is not
+      // displayed as if it reached or exceeded that boundary (e.g. 1.99 -> 1.9 km).
+      const distance = Math.floor(planned.distance / 100) / 10
+      const duration = Math.max(1, Math.floor(planned.duration / 60))
       const last = points[points.length - 1]
       const markers = [
-        { id: 1, latitude: route.latitude, longitude: route.longitude, title: '出发点', width: 28, height: 34 },
-        { id: 2, latitude: last.latitude, longitude: last.longitude, title: route.returnHome ? '回到出发点' : '随机终点', width: 28, height: 34 }
+        { id: 1, latitude: route.latitude, longitude: route.longitude, title: route.returnHome ? '出发点 / 终点' : '出发点', width: 28, height: 34 }
       ]
+      if (!route.returnHome) {
+        markers.push({ id: 2, latitude: last.latitude, longitude: last.longitude, title: '随机终点', width: 28, height: 34 })
+      }
       const savedFavorites = wx.getStorageSync('walkFavorites') || []
       const isFavorite = savedFavorites.some(item => item.id === route.routeId)
+      const requested = Number(route.requested).toFixed(0)
+      const targetText = route.mode === 'distance'
+        ? '目标 ' + requested + '–<' + (Number(route.requested) + 1) + ' 公里 · 实际步行路线'
+        : '目标 ' + requested + '–<' + (Number(route.requested) + 5) + ' 分钟 · 实际步行路线'
       route.plannedDistance = distance
       route.plannedDuration = duration
+      route.plannedDistanceMeters = planned.distance
+      route.plannedDurationSeconds = planned.duration
+      route.routeStyle = planned.style
       route.previewPoints = points
+      route.previewPolylines = [{
+        points,
+        color: '#426d54',
+        width: 7,
+        arrowLine: true
+      }]
       route.previewMarkers = markers
-      route.title = route.returnHome ? '随机环形散步路线' : '附近随机散步路线'
+      route.title = planned.style === 'loop'
+        ? '随机环形散步路线'
+        : planned.style === 'outback'
+          ? '随机往返散步路线'
+          : '附近随机散步路线'
+      const subtitle = planned.style === 'loop'
+        ? '沿不同步行道路环绕 · 回到出发点'
+        : planned.style === 'outback'
+          ? (requestedStyle === 'loop' ? '附近暂时没有合适环线 · 沿原路返回' : '沿真实步行道路前往 · 再沿原路返回')
+          : '从当前位置出发 · 随机选择终点'
       this.setData({
         title: route.title,
-        subtitle: route.returnHome ? '从当前位置出发 · 回到出发点' : '从当前位置出发 · 随机选择终点',
+        subtitle,
         distanceText: distance.toFixed(1) + ' 公里',
         durationText: '约 ' + duration + ' 分钟',
+        targetText,
         favorite: isFavorite,
         latitude: route.latitude,
         longitude: route.longitude,
         returnHome: route.returnHome,
+        routeStyle: planned.style,
         markers,
-        polyline: [{ points, color: '#426d54', width: 7, arrowLine: true }],
+        polyline: route.previewPolylines,
+        includePoints: points,
         routeReady: true
       })
     } catch (error) {
@@ -80,7 +114,9 @@ Page({
   },
 
   reroll() {
-    this.makePreview()
+    const route = getApp().globalData.currentRoute
+    const preferredStyle = route && route.returnHome && route.routeStyle === 'loop' ? 'outback' : 'loop'
+    this.makePreview(preferredStyle)
   },
 
   openFullscreen() {
@@ -119,12 +155,8 @@ Page({
   },
 
   startNavigation() {
-    wx.showModal({
-      title: '实时导航还没接入',
-      content: '路线已经由高德步行规划生成，但小程序内的实时定位跟随、语音提示和偏航重规划还没有完成。你可以先点地图全屏查看路线。',
-      confirmText: '知道了',
-      showCancel: false
-    })
+    // Open the third, full-screen map page with the already planned route.
+    this.openFullscreen()
   },
 
   finishDemo() {
