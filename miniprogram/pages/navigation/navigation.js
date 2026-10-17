@@ -48,6 +48,36 @@ function getRouteProgress(points, location) {
   return { fraction: Math.max(0, Math.min(1, bestAlong / totalLength)), distance: bestDistance }
 }
 
+function getRemainingRoute(points, fraction) {
+  if (!Array.isArray(points) || points.length < 2 || fraction >= 1) return []
+  if (fraction <= 0) return points
+
+  const lengths = []
+  let totalLength = 0
+  for (let index = 1; index < points.length; index += 1) {
+    const length = distanceBetween(points[index - 1], points[index])
+    lengths.push(length)
+    totalLength += length
+  }
+  if (!totalLength) return points
+
+  let remainingLength = totalLength * fraction
+  for (let index = 0; index < lengths.length; index += 1) {
+    const segmentLength = lengths[index]
+    if (remainingLength <= segmentLength) {
+      const segmentFraction = segmentLength ? remainingLength / segmentLength : 0
+      const first = points[index]
+      const second = points[index + 1]
+      return [{
+        longitude: first.longitude + (second.longitude - first.longitude) * segmentFraction,
+        latitude: first.latitude + (second.latitude - first.latitude) * segmentFraction
+      }].concat(points.slice(index + 1))
+    }
+    remainingLength -= segmentLength
+  }
+  return []
+}
+
 function formatElapsed(seconds) {
   const safeSeconds = Math.max(0, Math.floor(seconds))
   const hours = Math.floor(safeSeconds / 3600)
@@ -91,6 +121,7 @@ Page({
     this.plannedDistance = Number(route.plannedDistanceMeters || Number(route.plannedDistance || 0) * 1000)
     this.plannedDuration = Number(route.plannedDurationSeconds || Number(route.plannedDuration || 0) * 60)
     this.progressFraction = 0
+    this.renderedProgressFraction = 0
     this.walkedMeters = 0
     this.activeSince = 0
     this.elapsedBeforeHide = 0
@@ -156,22 +187,37 @@ Page({
       return
     }
 
-    if (this.lastLocation) {
+    const progress = getRouteProgress(this.routePoints, current)
+    const isOnRoute = progress && progress.distance <= 50
+    if (this.lastLocation && isOnRoute) {
       const delta = distanceBetween(this.lastLocation, current)
       const noiseAllowance = Math.max(3, Math.min(12, accuracy * 0.25))
       if (delta > noiseAllowance && delta < 100) this.walkedMeters += delta
     }
     this.lastLocation = current
 
-    const progress = getRouteProgress(this.routePoints, current)
     let status = '实时定位已开启 · 请沿路线行走'
-    if (progress && progress.distance <= 100) {
-      // Use actual GPS distance for progress so an out-and-back route does not
-      // get stuck matching the outbound and return legs to the same road segment.
+    if (isOnRoute) {
+      // Use distance traveled while snapped to the route. This avoids jumping
+      // to the wrong leg when an out-and-back route reuses the same road.
       this.progressFraction = Math.max(this.progressFraction, Math.min(1, this.walkedMeters / Math.max(1, this.plannedDistance)))
     } else if (progress) {
       status = '当前位置偏离路线 · 请回到路线附近'
     }
+
+    const renderStep = 2 / Math.max(1, this.plannedDistance)
+    const shouldTrimRoute = isOnRoute && this.progressFraction - this.renderedProgressFraction >= renderStep
+    const nextPolyline = shouldTrimRoute
+      ? (this.progressFraction >= 1
+          ? []
+          : [{
+              points: getRemainingRoute(this.routePoints, this.progressFraction),
+              color: '#426d54',
+              width: 7,
+              arrowLine: true
+            }])
+      : null
+    if (shouldTrimRoute) this.renderedProgressFraction = this.progressFraction
 
     const remainingMeters = this.plannedDistance * (1 - this.progressFraction)
     const remainingSeconds = this.plannedDistance > 0
@@ -183,7 +229,8 @@ Page({
       remainingDistance: formatDistance(remainingMeters),
       remainingDuration: remainingSeconds < 60 ? '不足 1 分钟' : '约 ' + Math.ceil(remainingSeconds / 60) + ' 分钟',
       walkedDistance: formatDistance(this.walkedMeters),
-      trackingStatus: status
+      trackingStatus: status,
+      ...(nextPolyline ? { polyline: nextPolyline } : {})
     })
   },
 
