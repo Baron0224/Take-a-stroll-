@@ -118,6 +118,7 @@ Page({
     const info = wx.getSystemInfoSync()
     this.route = route
     this.routePoints = route.previewPoints
+    this.displayRoutePoints = route.displayPoints || route.previewPoints
     this.plannedDistance = Number(route.plannedDistanceMeters || Number(route.plannedDistance || 0) * 1000)
     this.plannedDuration = Number(route.plannedDurationSeconds || Number(route.plannedDuration || 0) * 60)
     this.progressFraction = 0
@@ -211,7 +212,7 @@ Page({
       ? (this.progressFraction >= 1
           ? []
           : [{
-              points: getRemainingRoute(this.routePoints, this.progressFraction),
+              points: getRemainingRoute(this.displayRoutePoints, this.progressFraction),
               color: '#426d54',
               width: 7,
               arrowLine: true

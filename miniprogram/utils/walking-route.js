@@ -134,6 +134,60 @@ function distanceBetweenPoints(first, second) {
   return 6371000 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
 }
 
+function simplifyRoutePoints(points, toleranceMeters, maxPoints) {
+  if (!Array.isArray(points) || points.length <= 2) return points || []
+
+  const tolerance = Number(toleranceMeters) || 8
+  const keep = new Uint8Array(points.length)
+  keep[0] = 1
+  keep[points.length - 1] = 1
+  const stack = [[0, points.length - 1]]
+
+  while (stack.length) {
+    const range = stack.pop()
+    const start = points[range[0]]
+    const end = points[range[1]]
+    const meanLatitude = (start.latitude + end.latitude) / 2 * Math.PI / 180
+    const longitudeScale = 111320 * Math.cos(meanLatitude)
+    const startX = start.longitude * longitudeScale
+    const startY = start.latitude * 111320
+    const endX = end.longitude * longitudeScale
+    const endY = end.latitude * 111320
+    const dx = endX - startX
+    const dy = endY - startY
+    const lengthSquared = dx * dx + dy * dy
+    let farthestDistance = tolerance
+    let farthestIndex = -1
+
+    for (let index = range[0] + 1; index < range[1]; index += 1) {
+      const point = points[index]
+      const pointX = point.longitude * longitudeScale
+      const pointY = point.latitude * 111320
+      const fraction = lengthSquared
+        ? Math.max(0, Math.min(1, ((pointX - startX) * dx + (pointY - startY) * dy) / lengthSquared))
+        : 0
+      const distance = Math.hypot(pointX - (startX + fraction * dx), pointY - (startY + fraction * dy))
+      if (distance > farthestDistance) {
+        farthestDistance = distance
+        farthestIndex = index
+      }
+    }
+
+    if (farthestIndex >= 0) {
+      keep[farthestIndex] = 1
+      stack.push([range[0], farthestIndex], [farthestIndex, range[1]])
+    }
+  }
+
+  let result = points.filter((point, index) => keep[index])
+  const limit = Number(maxPoints) || 400
+  if (result.length > limit) {
+    const stride = (result.length - 1) / (limit - 1)
+    result = Array.from({ length: limit }, (_, index) => result[Math.round(index * stride)])
+  }
+  return result
+}
+
 function slicePolyline(points, fraction) {
   if (fraction >= 1) return points.slice()
   const lengths = []
@@ -317,4 +371,4 @@ async function planWalkingRoute(options) {
   return planOutAndBackRoute(client, start, options, targetMeasure, desiredMeters, interval)
 }
 
-module.exports = { planWalkingRoute }
+module.exports = { planWalkingRoute, simplifyRoutePoints }

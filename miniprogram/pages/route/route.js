@@ -1,4 +1,4 @@
-const { planWalkingRoute } = require('../../utils/walking-route.js')
+const { planWalkingRoute, simplifyRoutePoints } = require('../../utils/walking-route.js')
 
 Page({
   data: {
@@ -33,8 +33,8 @@ Page({
     if (this.data.routeLoading) return
 
     const requestedStyle = preferredStyle || 'loop'
-    route.routeId = Date.now().toString() + Math.random().toString(36).slice(2, 7)
-    this.setData({ routeLoading: true, routeReady: false })
+    const nextRouteId = Date.now().toString() + Math.random().toString(36).slice(2, 7)
+    this.setData({ routeLoading: true, routeReady: this.data.routeReady })
     try {
       const planned = await planWalkingRoute({
         latitude: route.latitude,
@@ -45,6 +45,7 @@ Page({
         preferredStyle: requestedStyle
       })
       const points = planned.points
+      const displayPoints = simplifyRoutePoints(points, 8, 400)
       // Round down so a valid value near the exclusive upper boundary is not
       // displayed as if it reached or exceeded that boundary (e.g. 1.99 -> 1.9 km).
       const distance = Math.floor(planned.distance / 100) / 10
@@ -57,19 +58,21 @@ Page({
         markers.push({ id: 2, latitude: last.latitude, longitude: last.longitude, title: '随机终点', width: 28, height: 34 })
       }
       const savedFavorites = wx.getStorageSync('walkFavorites') || []
-      const isFavorite = savedFavorites.some(item => item.id === route.routeId)
+      const isFavorite = savedFavorites.some(item => item.id === nextRouteId)
       const requested = Number(route.requested).toFixed(0)
       const targetText = route.mode === 'distance'
         ? '目标 ' + requested + '–<' + (Number(route.requested) + 1) + ' 公里 · 实际步行路线'
         : '目标 ' + requested + '–<' + (Number(route.requested) + 5) + ' 分钟 · 实际步行路线'
       route.plannedDistance = distance
+      route.routeId = nextRouteId
       route.plannedDuration = duration
       route.plannedDistanceMeters = planned.distance
       route.plannedDurationSeconds = planned.duration
       route.routeStyle = planned.style
       route.previewPoints = points
+      route.displayPoints = displayPoints
       route.previewPolylines = [{
-        points,
+        points: displayPoints,
         color: '#426d54',
         width: 7,
         arrowLine: true
@@ -98,7 +101,7 @@ Page({
         routeStyle: planned.style,
         markers,
         polyline: route.previewPolylines,
-        includePoints: points,
+        includePoints: displayPoints,
         routeReady: true
       })
     } catch (error) {
