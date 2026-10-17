@@ -6,8 +6,15 @@
   </view>
 
   <view class="profile-card">
-    <view class="avatar">🌱</view>
-    <view><view class="nickname">散步的人</view><view class="motto">慢慢走，也算到达。</view></view>
+    <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
+      <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
+      <text wx:else class="avatar-placeholder">🌱</text>
+    </button>
+    <view class="profile-info">
+      <input class="nickname-input" type="nickname" value="{{nickname}}" placeholder="填写昵称" bindinput="onNicknameInput" />
+      <view class="motto">头像由你选择，记录按当前微信账号保存。</view>
+      <button class="save-profile" bindtap="saveProfile" loading="{{profileSaving}}">保存资料</button>
+    </view>
   </view>
 
   <view class="stats">
@@ -23,7 +30,7 @@
   <view wx:if="{{activeTab === 'records'}}">
     <view class="records-heading"><text>每一次出发</text><text wx:if="{{records.length}}" class="clear" bindtap="clearRecords">清空</text></view>
     <view wx:if="{{!records.length}}" class="empty">完成一段散步后，记录会出现在这里。</view>
-    <view wx:for="{{records}}" wx:key="index" class="record">
+    <view wx:for="{{records}}" wx:key="index" class="record" data-id="{{item._id}}" bindtap="openRecord">
       <view class="record-icon">🌿</view>
       <view class="record-main">
         <view class="record-title">{{item.title}}</view>

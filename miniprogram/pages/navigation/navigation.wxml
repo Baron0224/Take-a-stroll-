@@ -20,4 +20,5 @@
   </view>
 
   <view class="demo-notice">{{trackingStatus}}</view>
+  <button class="finish-walk-button" bindtap="finishWalk" loading="{{savingWalk}}" disabled="{{savingWalk}}">结束并保存本次散步</button>
 </view>

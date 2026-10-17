@@ -1,6 +1,7 @@
 {
   "appid": "wxc36553110b7ae172",
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "libVersion": "trial",
   "isGameTourist": false,
   "packOptions": {

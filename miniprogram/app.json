@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/route/route",
     "pages/navigation/navigation",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/walk-record/walk-record"
   ],
   "window": {
     "navigationBarTitleText": "散步一下",

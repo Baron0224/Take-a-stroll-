@@ -1,0 +1,14 @@
+<view class="record-page">
+  <view class="map-wrap">
+    <map id="walkRecordMap" class="record-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="14" polyline="{{polyline}}" show-location="false" />
+  </view>
+  <view class="summary">
+    <view class="summary-title">这段散步</view>
+    <view class="summary-stats">
+      <view><text class="value">{{distance}}</text><text class="label">距离</text></view>
+      <view><text class="value">{{duration}}</text><text class="label">用时</text></view>
+    </view>
+    <view class="date">{{date}}</view>
+    <view class="hint">地图轨迹由散步期间的位置点组成，仅自己可在当前微信账号下查看。</view>
+  </view>
+</view>

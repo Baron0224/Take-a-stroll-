@@ -12,4 +12,6 @@ button.back-button { display: flex; flex: 0 0 100rpx; box-sizing: border-box; wi
 .metric-divider { width: 1rpx; height: 56rpx; margin: 0 20rpx; background: #e7e4da; }
 .clock-line { display: flex; align-items: center; justify-content: space-between; gap: 8rpx; margin-top: 16rpx; padding-top: 14rpx; border-top: 1rpx solid #eceae2; color: #777b70; font-size: 19rpx; }
 .clock-value { color: #50574b; font-size: 20rpx; font-weight: 600; font-variant-numeric: tabular-nums; }
-.demo-notice { position: absolute; right: 24rpx; bottom: 42rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 22rpx; }
+.demo-notice { position: absolute; right: 24rpx; bottom: 148rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 22rpx; }
+.finish-walk-button { position: absolute; right: 48rpx; bottom: 42rpx; left: 48rpx; width: auto; min-height: 82rpx; margin: 0; padding: 18rpx; border-radius: 42rpx; background: #3f5848; color: #fff; font-size: 27rpx; font-weight: 650; line-height: 1.5; box-shadow: 0 10rpx 28rpx rgba(31,44,32,.2); }
+.finish-walk-button::after { border: 0; }

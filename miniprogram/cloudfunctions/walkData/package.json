@@ -1,0 +1,9 @@
+{
+  "name": "walkData",
+  "version": "1.0.0",
+  "description": "Cloud data operations for the walking mini program",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

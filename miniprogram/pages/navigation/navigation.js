@@ -78,6 +78,36 @@ function getRemainingRoute(points, fraction) {
   return []
 }
 
+function getWalkedRoute(points, fraction) {
+  if (!Array.isArray(points) || points.length < 2 || fraction <= 0) return []
+  if (fraction >= 1) return points
+  const lengths = []
+  let totalLength = 0
+  for (let index = 1; index < points.length; index += 1) {
+    const length = distanceBetween(points[index - 1], points[index])
+    lengths.push(length)
+    totalLength += length
+  }
+  if (!totalLength) return [points[0]]
+  let targetLength = totalLength * fraction
+  const result = [points[0]]
+  for (let index = 0; index < lengths.length; index += 1) {
+    const length = lengths[index]
+    if (targetLength >= length) {
+      result.push(points[index + 1])
+      targetLength -= length
+      continue
+    }
+    const part = length ? targetLength / length : 0
+    result.push({
+      longitude: points[index].longitude + (points[index + 1].longitude - points[index].longitude) * part,
+      latitude: points[index].latitude + (points[index + 1].latitude - points[index].latitude) * part
+    })
+    break
+  }
+  return result
+}
+
 function formatElapsed(seconds) {
   const safeSeconds = Math.max(0, Math.floor(seconds))
   const hours = Math.floor(safeSeconds / 3600)
@@ -104,7 +134,8 @@ Page({
     walkedDistance: '0 米',
     elapsedTime: '00:00',
     clockTime: '--:--',
-    trackingStatus: '正在连接实时定位…'
+    trackingStatus: '正在连接实时定位…',
+    savingWalk: false
   },
 
   onLoad() {
@@ -124,7 +155,9 @@ Page({
     this.progressFraction = 0
     this.renderedProgressFraction = 0
     this.walkedMeters = 0
+    this.walkedPoints = []
     this.activeSince = 0
+    this.startedAt = Date.now()
     this.elapsedBeforeHide = 0
     this.trackingActive = false
     this.lastLocation = null
@@ -190,6 +223,10 @@ Page({
 
     const progress = getRouteProgress(this.routePoints, current)
     const isOnRoute = progress && progress.distance <= 50
+    if (isOnRoute && (!this.walkedPoints.length || distanceBetween(this.walkedPoints[this.walkedPoints.length - 1], current) >= 5)) {
+      this.walkedPoints.push(current)
+      if (this.walkedPoints.length > 1000) this.walkedPoints.splice(1, 2)
+    }
     if (this.lastLocation && isOnRoute) {
       const delta = distanceBetween(this.lastLocation, current)
       const noiseAllowance = Math.max(3, Math.min(12, accuracy * 0.25))
@@ -247,6 +284,56 @@ Page({
 
   backToRoute() {
     wx.navigateBack()
+  },
+
+  finishWalk() {
+    if (this.data.savingWalk) return
+    wx.showModal({
+      title: '结束这次散步？',
+      content: `本次已走 ${formatDistance(this.walkedMeters)}，用时 ${this.data.elapsedTime}。结束后会保存到当前微信账号。`,
+      confirmText: '结束并保存',
+      success: async (result) => {
+        if (!result.confirm) return
+        if (!getApp().globalData.cloudReady || !wx.cloud) {
+          wx.showModal({ title: '云端尚未连接', content: '请先在微信开发者工具中确认云环境并部署 walkData 云函数。', showCancel: false })
+          return
+        }
+        this.setData({ savingWalk: true })
+        const durationSeconds = Math.floor((this.elapsedBeforeHide + (this.activeSince ? Date.now() - this.activeSince : 0)) / 1000)
+        const walkedFraction = Math.min(1, this.walkedMeters / Math.max(1, this.plannedDistance))
+        const points = this.walkedPoints.length > 1
+          ? this.walkedPoints
+          : getWalkedRoute(this.displayRoutePoints, walkedFraction)
+        try {
+          await wx.cloud.callFunction({
+            name: 'walkData',
+            data: {
+              action: 'saveRecord',
+              record: {
+                title: '随机散步',
+                distanceMeters: this.walkedMeters,
+                durationSeconds,
+                points,
+                startedAt: this.startedAt,
+                endedAt: Date.now()
+              }
+            }
+          })
+          this.trackingActive = false
+          this.activeSince = 0
+          if (this.timer) clearInterval(this.timer)
+          if (this.locationListener) wx.offLocationChange(this.locationListener)
+          wx.stopLocationUpdate({})
+          wx.showToast({ title: '散步记录已保存', icon: 'success' })
+          setTimeout(() => wx.navigateTo({ url: '/pages/profile/profile' }), 400)
+        } catch (error) {
+          console.error('保存散步记录失败', error)
+          wx.showModal({ title: '保存失败', content: '请确认已部署 walkData 云函数并创建 walkRecords 数据库集合。当前散步没有被保存，请重试。', showCancel: false })
+        } finally {
+          this.setData({ savingWalk: false })
+        }
+      }
+    })
   },
 
   onUnload() {
