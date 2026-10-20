@@ -371,4 +371,9 @@ async function planWalkingRoute(options) {
   return planOutAndBackRoute(client, start, options, targetMeasure, desiredMeters, interval)
 }
 
-module.exports = { planWalkingRoute, simplifyRoutePoints }
+async function planWalkingRouteTo(origin, destination) {
+  const client = makeClient()
+  return requestWalkingLeg(client, origin, destination)
+}
+
+module.exports = { planWalkingRoute, planWalkingRouteTo, simplifyRoutePoints }

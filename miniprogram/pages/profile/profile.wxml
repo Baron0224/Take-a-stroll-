@@ -34,7 +34,7 @@
       <view class="record-icon">🌿</view>
       <view class="record-main">
         <view class="record-title">{{item.title}}</view>
-        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示例记录</text></view>
+        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟</view>
       </view>
       <view class="record-distance">{{item.distance}} km</view>
     </view>
@@ -47,7 +47,7 @@
       <view class="record-icon">♡</view>
       <view class="record-main">
         <view class="record-title">{{item.title}}</view>
-        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟 <text wx:if="{{item.demo}}">· 示意路线</text></view>
+        <view class="record-meta">{{item.date}} · {{item.duration}} 分钟</view>
       </view>
       <view class="record-distance">{{item.distance}} km</view>
       <button class="remove-favorite" data-id="{{item.id}}" bindtap="removeFavorite">移除</button>

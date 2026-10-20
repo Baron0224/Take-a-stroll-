@@ -11,5 +11,17 @@ App({
       traceUser: true
     })
     this.globalData.cloudReady = true
+  },
+
+  onHide() {
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1]
+    if (page && page.route === 'pages/navigation/navigation' && page.onAppHide) page.onAppHide()
+  },
+
+  onShow() {
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1]
+    if (page && page.route === 'pages/navigation/navigation' && page.onAppShow) page.onAppShow()
   }
 })

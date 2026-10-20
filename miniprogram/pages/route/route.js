@@ -148,7 +148,6 @@ Page({
         distance,
         duration,
         date: new Date().toLocaleDateString('zh-CN'),
-        demo: false,
         returnHome: route.returnHome
       })
       this.setData({ favorite: true })
@@ -160,35 +159,6 @@ Page({
   startNavigation() {
     // Open the third, full-screen map page with the already planned route.
     this.openFullscreen()
-  },
-
-  finishDemo() {
-    wx.showModal({
-      title: '保存示例记录？',
-      content: '当前距离和时长是演示数据，不代表真实散步记录。',
-      confirmText: '保存示例',
-      success: (res) => {
-        if (!res.confirm) return
-        const route = getApp().globalData.currentRoute
-        const distance = parseFloat(this.data.distanceText)
-        const duration = parseInt(this.data.durationText.replace(/\D/g, ''), 10)
-        const records = wx.getStorageSync('walkRecords') || []
-        records.unshift({
-          title: this.data.title,
-          distance,
-          duration,
-          date: new Date().toLocaleDateString('zh-CN'),
-          demo: true,
-          returnHome: route.returnHome
-        })
-        wx.setStorageSync('walkRecords', records)
-        wx.showToast({ title: '示例记录已保存', icon: 'success' })
-        setTimeout(() => wx.navigateTo({ url: '/pages/profile/profile' }), 450)
-      }
-    })
-  },
-
-  backToSettings() {
-    wx.navigateBack()
   }
+
 })

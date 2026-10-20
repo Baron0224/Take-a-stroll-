@@ -17,9 +17,13 @@
   "permission": {
     "scope.userLocation": {
       "desc": "用于生成附近散步路线、实时显示你的位置并记录散步进度"
+    },
+    "scope.userLocationBackground": {
+      "desc": "散步导航期间用于在锁屏或切到后台时继续记录路线和步行距离"
     }
   },
-  "requiredPrivateInfos": ["getLocation", "onLocationChange", "startLocationUpdate"],
+  "requiredBackgroundModes": ["location"],
+  "requiredPrivateInfos": ["getLocation", "onLocationChange", "startLocationUpdate", "startLocationUpdateBackground"],
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

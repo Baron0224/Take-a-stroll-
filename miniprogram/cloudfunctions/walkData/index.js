@@ -48,6 +48,7 @@ exports.main = async (event) => {
           latitude: Number(point.latitude),
           longitude: Number(point.longitude)
         })).filter(point => Number.isFinite(point.latitude) && Number.isFinite(point.longitude)),
+        demo: Boolean(record.demo),
         startedAt: Number(record.startedAt) || Date.now(),
         endedAt: Number(record.endedAt) || Date.now(),
         createdAt: db.serverDate()

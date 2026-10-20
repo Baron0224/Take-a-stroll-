@@ -1,24 +1,29 @@
 <view class="navigation-screen">
-  <map class="full-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="17" show-location="true" markers="{{markers}}" polyline="{{polyline}}" />
-
-  <view class="top-overlay" style="padding-top: {{safeTop}}px;">
-    <button class="back-button" bindtap="backToRoute" aria-label="返回路线预览">‹</button>
-    <view class="progress-card">
-      <view class="metric-row">
-        <view class="metric">
-          <text class="metric-label">剩余距离</text>
-          <text class="metric-value">{{remainingDistance}}</text>
-        </view>
-        <view class="metric-divider"></view>
-        <view class="metric">
-          <text class="metric-label">预计剩余时间</text>
-          <text class="metric-value">{{remainingDuration}}</text>
-        </view>
-      </view>
-      <view class="clock-line"><text>已走 {{walkedDistance}}</text><text>已用时 {{elapsedTime}}</text><text class="clock-value">{{clockTime}}</text></view>
-    </view>
-  </view>
-
-  <view class="demo-notice">{{trackingStatus}}</view>
-  <button class="finish-walk-button" bindtap="finishWalk" loading="{{savingWalk}}" disabled="{{savingWalk}}">结束并保存本次散步</button>
+  <map class="full-map" latitude="{{latitude}}" longitude="{{longitude}}" scale="17" show-location="true" markers="{{markers}}" polyline="{{polyline}}">
+    <cover-view class="back-button" style="top: {{safeTop + 8}}px;" catchtap="backToRoute">‹</cover-view>
+    <cover-view class="top-overlay" style="top: {{safeTop + 72}}px;">
+      <cover-view class="progress-card">
+        <cover-view class="metric-row">
+          <cover-view class="metric">
+            <cover-view class="metric-label">剩余距离</cover-view>
+            <cover-view class="metric-value">{{remainingDistance}}</cover-view>
+          </cover-view>
+          <cover-view class="metric-divider"></cover-view>
+          <cover-view class="metric">
+            <cover-view class="metric-label">预计剩余时间</cover-view>
+            <cover-view class="metric-value">{{remainingDuration}}</cover-view>
+          </cover-view>
+        </cover-view>
+        <cover-view class="clock-line"><cover-view>已走 {{walkedDistance}}</cover-view><cover-view>已用时 {{elapsedTime}}</cover-view><cover-view class="clock-value">{{clockTime}}</cover-view></cover-view>
+      </cover-view>
+    </cover-view>
+    <cover-view class="demo-notice status-{{trackingStatusType}}">
+      <cover-view>{{trackingStatus}}</cover-view>
+      <cover-view wx:if="{{canRetryReroute}}" class="retry-route-button" catchtap="retryReroute">点击重新规划</cover-view>
+    </cover-view>
+    <cover-view class="finish-footer">
+      <cover-view class="pause-walk-button {{isPaused ? 'is-paused' : ''}}" catchtap="togglePause">{{isPaused ? '继续' : '暂停'}}</cover-view>
+      <cover-view class="finish-walk-button {{savingWalk ? 'is-saving' : ''}}" catchtap="finishWalk">{{savingWalk ? '正在保存…' : '结束散步并保存'}}</cover-view>
+    </cover-view>
+  </map>
 </view>

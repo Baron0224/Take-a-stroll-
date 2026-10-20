@@ -1,9 +1,8 @@
 page { width: 100%; height: 100%; overflow: hidden; background: #e7ebdf; }
 .navigation-screen { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
-.full-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.full-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .top-overlay { position: absolute; top: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: flex-start; padding-left: 20rpx; padding-right: 20rpx; }
-button.back-button { display: flex; flex: 0 0 100rpx; box-sizing: border-box; width: 100rpx; min-width: 100rpx; max-width: 100rpx; height: 100rpx; min-height: 100rpx; max-height: 100rpx; margin: 8rpx auto 18rpx 0; padding: 0; align-items: center; justify-content: center; border: 1rpx solid rgba(255,255,255,.72); border-radius: 50%; background: rgba(251,250,246,.96); color: #3d493d; font-size: 72rpx; line-height: 1; box-shadow: 0 8rpx 24rpx rgba(31,44,32,.12); }
-.back-button::after { border: 0; }
+.back-button { position: absolute; left: 20rpx; z-index: 2; display: flex; box-sizing: border-box; width: 100rpx; height: 100rpx; align-items: center; justify-content: center; border: 1rpx solid rgba(255,255,255,.72); border-radius: 50%; background: rgba(251,250,246,.96); color: #3d493d; text-align: center; font-size: 72rpx; line-height: 100rpx; }
 .progress-card { padding: 24rpx 26rpx 18rpx; border: 1rpx solid rgba(255,255,255,.76); border-radius: 22rpx; background: rgba(251,250,246,.96); box-shadow: 0 12rpx 32rpx rgba(31,44,32,.13); }
 .metric-row { display: flex; align-items: center; }
 .metric { display: flex; flex: 1; flex-direction: column; gap: 7rpx; }
@@ -12,6 +11,12 @@ button.back-button { display: flex; flex: 0 0 100rpx; box-sizing: border-box; wi
 .metric-divider { width: 1rpx; height: 56rpx; margin: 0 20rpx; background: #e7e4da; }
 .clock-line { display: flex; align-items: center; justify-content: space-between; gap: 8rpx; margin-top: 16rpx; padding-top: 14rpx; border-top: 1rpx solid #eceae2; color: #777b70; font-size: 19rpx; }
 .clock-value { color: #50574b; font-size: 20rpx; font-weight: 600; font-variant-numeric: tabular-nums; }
-.demo-notice { position: absolute; right: 24rpx; bottom: 148rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 22rpx; }
-.finish-walk-button { position: absolute; right: 48rpx; bottom: 42rpx; left: 48rpx; width: auto; min-height: 82rpx; margin: 0; padding: 18rpx; border-radius: 42rpx; background: #3f5848; color: #fff; font-size: 27rpx; font-weight: 650; line-height: 1.5; box-shadow: 0 10rpx 28rpx rgba(31,44,32,.2); }
-.finish-walk-button::after { border: 0; }
+.demo-notice { position: absolute; right: 24rpx; bottom: 205rpx; left: 24rpx; padding: 15rpx 20rpx; border: 1rpx solid rgba(255,255,255,.7); border-radius: 14rpx; background: rgba(251,250,246,.9); color: #777b70; text-align: center; font-size: 22rpx; }
+.demo-notice.status-warning { border-color: rgba(176,92,54,.28); background: rgba(255,246,237,.96); color: #9b4e2c; font-weight: 600; }
+.demo-notice.status-success { border-color: rgba(53,105,77,.2); background: rgba(240,248,238,.96); color: #35694d; font-weight: 600; }
+.retry-route-button { display: inline-block; margin-top: 8rpx; padding: 5rpx 18rpx; border-radius: 999rpx; background: #9b4e2c; color: #fff; font-size: 20rpx; font-weight: 600; }
+.finish-footer { position: absolute; right: 24rpx; bottom: calc(env(safe-area-inset-bottom) + 58rpx); left: 24rpx; box-sizing: border-box; height: 104rpx; display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.pause-walk-button { box-sizing: border-box; flex: 0 0 27%; height: 82rpx; border: 1rpx solid rgba(53,75,62,.28); border-radius: 26rpx; background: rgba(251,250,246,.96); color: #354b3e; text-align: center; font-size: 28rpx; font-weight: 650; line-height: 80rpx; box-shadow: 0 8rpx 22rpx rgba(27,43,33,.16); }
+.pause-walk-button.is-paused { background: #e8f1e7; }
+.finish-walk-button { box-sizing: border-box; flex: 1; height: 86rpx; border: 1rpx solid rgba(255,255,255,.3); border-radius: 28rpx; background: #354b3e; color: #fff; text-align: center; font-size: 29rpx; font-weight: 650; line-height: 86rpx; letter-spacing: 1rpx; box-shadow: 0 12rpx 30rpx rgba(27,43,33,.24); }
+.finish-walk-button.is-saving { background: #718276; box-shadow: 0 6rpx 16rpx rgba(27,43,33,.16); }

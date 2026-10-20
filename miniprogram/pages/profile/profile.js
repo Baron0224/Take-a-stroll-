@@ -40,12 +40,12 @@ Page({
     Promise.all([callWalkData({ action: 'getProfile' }), callWalkData({ action: 'listRecords' })])
       .then(([profileResult, recordResult]) => {
         const profile = profileResult.profile || {}
-        const records = (recordResult.records || []).map(toDisplayRecord)
+        const records = (recordResult.records || []).filter(record => !record.demo).map(toDisplayRecord)
         this.setData({
           cloudReady: true,
           nickname: profile.nickname || '散步的人',
           avatarFileID: profile.avatarFileID || '',
-          records: records.concat((wx.getStorageSync('walkRecords') || []).filter(item => item.demo).map(toDisplayRecord))
+          records
         }, () => this.refreshStats())
         this.refreshAvatar(profile.avatarFileID || '')
       })
@@ -57,7 +57,8 @@ Page({
   },
 
   loadLocalRecords() {
-    this.setData({ records: (wx.getStorageSync('walkRecords') || []).map(toDisplayRecord), cloudReady: false }, () => this.refreshStats())
+    const records = (wx.getStorageSync('walkRecords') || []).filter(record => !record.demo).map(toDisplayRecord)
+    this.setData({ records, cloudReady: false }, () => this.refreshStats())
   },
 
   refreshStats() {

@@ -1,6 +1,5 @@
 <view class="page-wrap">
   <view class="route-heading">
-    <button class="back" bindtap="backToSettings">← 返回设置</button>
     <view class="route-title">{{title}}</view>
     <view class="route-subtitle">{{subtitle}}</view>
   </view>
@@ -21,6 +20,5 @@
     <button class="favorite {{favorite ? 'saved' : ''}}" disabled="{{!routeReady || routeLoading}}" bindtap="toggleFavorite">{{favorite ? '♥ 已收藏' : '♡ 收藏'}}</button>
     <button class="start" disabled="{{!routeReady || routeLoading}}" bindtap="startNavigation">开始导航　↗</button>
   </view>
-  <button class="finish" disabled="{{!routeReady || routeLoading}}" bindtap="finishDemo">结束示例散步并查看记录</button>
-  <view class="notice">路线由高德步行规划生成；实时导航和途中进度还未接入。</view>
+  <view class="notice">这里仅预览和收藏路线；开始导航后，才会记录实际走过的距离与用时。</view>
 </view>
