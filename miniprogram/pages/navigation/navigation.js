@@ -462,9 +462,15 @@ Page({
 
     // Reaching the planned finish should ask before ending. Saving remains a
     // deliberate user action, so a completed route never silently exits.
-    const isAtPlannedFinish = isOnRoute && (
-      this.progressFraction >= 0.995
-      || (remainingMeters <= 25 && distanceBetween(current, this.destination) <= 35)
+    // GPS route matching can miss the final few metres (especially where a
+    // return-home route starts and ends at nearly the same coordinate). Treat
+    // being physically near the destination as completion even if the final
+    // fix did not snap onto the route polyline.
+    const distanceToDestination = distanceBetween(current, this.destination)
+    const isAtPlannedFinish = (
+      (isOnRoute && this.progressFraction >= 0.995)
+      || (distanceToDestination <= 35 && this.walkedMeters > 0)
+      || (isOnRoute && remainingMeters <= 25 && distanceToDestination <= 50)
     )
     if (isAtPlannedFinish && !this.completionPrompted) {
       this.completionPrompted = true
@@ -633,3 +639,4 @@ Page({
     wx.stopLocationUpdate({})
   }
 })
+
